@@ -183,16 +183,6 @@ def esc(s):
     return (str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;"))
 
 
-def rank_tier(value, s, a, b):
-    if value >= s:
-        return ("S", PINK)
-    if value >= a:
-        return ("A", CYAN)
-    if value >= b:
-        return ("B", PURPLE)
-    return ("C", MUTED)
-
-
 def heat_color(c):
     if c <= 0:
         return GREEN0
@@ -208,51 +198,6 @@ def heat_color(c):
 # ----------------------------------------------------------------------------
 # card renderers
 # ----------------------------------------------------------------------------
-def render_stats(d):
-    joined = ""
-    if d["created_at"]:
-        try:
-            dt = datetime.datetime.strptime(d["created_at"][:10], "%Y-%m-%d")
-            joined = str(dt.year)
-        except Exception:
-            joined = d["created_at"][:4]
-    cells = [
-        ("\U0001F465", "Followers", fmt(d["followers"])),
-        ("\U0001F4DA", "Repositories", fmt(d["public_repos"])),
-        ("\u2B50", "Stars", fmt(d["total_stars"])),
-        ("\U0001F33D", "Forks", fmt(d["total_forks"])),
-        ("\U0001F525", "Cur. Streak", fmt(d["current_streak"]) + "d"),
-        ("\U0001F4C5", "Joined", joined),
-    ]
-    cards = []
-    col_w = 220
-    for i, (icon, label, val) in enumerate(cells):
-        x = 16 + (i % 2) * (col_w + 8)
-        y = 56 + (i // 2) * 44
-        cards.append(
-            '<text x="%d" y="%d" font-size="20">%s</text>'
-            '<text x="%d" y="%d" font-family="Segoe UI, PingFang SC, sans-serif" '
-            'font-size="15" font-weight="700" fill="%s">%s</text>'
-            '<text x="%d" y="%d" font-family="Segoe UI, PingFang SC, sans-serif" '
-            'font-size="11" fill="%s">%s</text>'
-            % (x, y, icon, x + 26, y - 3, TEXT, esc(val),
-               x + 26, y + 12, MUTED, esc(label))
-        )
-    return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 195" width="460" height="195">'
-        '<defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">'
-        '<stop offset="0" stop-color="%s"/><stop offset="1" stop-color="%s"/></linearGradient></defs>'
-        '<rect x="0" y="0" width="460" height="195" rx="12" fill="%s"/>'
-        '<rect x="0" y="0" width="460" height="4" rx="2" fill="url(#g1)"/>'
-        '<text x="16" y="30" font-family="Segoe UI, PingFang SC, sans-serif" font-size="16" '
-        'font-weight="800" fill="%s">GitHub Stats</text>'
-        '<rect x="150" y="18" width="40" height="4" rx="2" fill="%s">'
-        '<animate attributeName="width" values="40;120;40" dur="3s" repeatCount="indefinite"/></rect>'
-        '%s</svg>'
-        % (CYAN, PINK, BG, TEXT, PURPLE, "".join(cards))
-    )
-
-
 def render_top_langs(d):
     langs = sorted(d["lang_bytes"].items(), key=lambda kv: kv[1], reverse=True)[:6]
     total = sum(v for _, v in langs) or 1
@@ -319,58 +264,6 @@ def render_streak(d):
     )
 
 
-def render_trophies(d):
-    # (emoji, label, value, S-threshold, A-threshold, B-threshold)
-    specs = [
-        ("\u2B50", "Stars", d["total_stars"], 50, 10, 3),
-        ("\U0001F465", "Followers", d["followers"], 200, 50, 10),
-        ("\U0001F4DA", "Repos", d["public_repos"], 50, 20, 8),
-        ("\U0001F525", "Streak", d["current_streak"], 30, 14, 7),
-        ("\U0001F4AC", "Commits", d["year_contribs"], 1000, 300, 100),
-    ]
-    # experience (account age)
-    yrs = 0
-    if d["created_at"]:
-        try:
-            dt = datetime.datetime.strptime(d["created_at"][:10], "%Y-%m-%d")
-            yrs = max(0, datetime.datetime.now(datetime.timezone.utc).year - dt.year)
-        except Exception:
-            yrs = 0
-    specs.append(("\U0001F3AE", "Experience", yrs, 8, 4, 2))
-
-    n = len(specs)
-    cw = 112
-    gap = 8
-    total_w = n * cw + (n - 1) * gap
-    H = 150
-    cards = []
-    for i, (icon, label, val, s, a, b) in enumerate(specs):
-        tier, color = rank_tier(val, s, a, b)
-        x = 10 + i * (cw + gap)
-        cy = 78
-        cards.append(
-            '<rect x="%d" y="40" width="%d" height="100" rx="12" fill="%s" stroke="%s" stroke-width="1.5">'
-            '<animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2.5s" '
-            'repeatCount="indefinite"/></rect>'
-            '<text x="%d" y="%d" font-size="30" text-anchor="middle">%s</text>'
-            '<text x="%d" y="%d" font-family="Segoe UI, PingFang SC, sans-serif" font-size="13" '
-            'font-weight="700" fill="%s" text-anchor="middle">%s</text>'
-            '<circle cx="%d" cy="%d" r="11" fill="%s"/>'
-            '<text x="%d" y="%d" font-family="Segoe UI, PingFang SC, sans-serif" font-size="12" '
-            'font-weight="800" fill="%s" text-anchor="middle">%s</text>'
-            % (x, cw, PANEL, color, x + cw / 2, cy, icon, x + cw / 2, cy + 30, TEXT,
-               esc(label), x + cw - 16, 56, color, x + cw - 16, 60, BG, tier)
-        )
-    return (
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" width="%d" height="%d">'
-        '<rect x="0" y="0" width="%d" height="%d" rx="12" fill="%s"/>'
-        '<text x="16" y="26" font-family="Segoe UI, PingFang SC, sans-serif" font-size="16" '
-        'font-weight="800" fill="%s">\U0001F3C6 Trophies</text>'
-        '%s</svg>'
-        % (total_w + 20, H, total_w + 20, H, total_w + 20, H, BG, TEXT, "".join(cards))
-    )
-
-
 def render_activity(d):
     days = d["calendar_days"]
     weeks = []
@@ -434,10 +327,8 @@ def main():
                      % (d["followers"], d["public_repos"], d["total_stars"],
                         d["current_streak"], d["year_contribs"]))
     out = {
-        "stats.svg": render_stats(d),
         "top-langs.svg": render_top_langs(d),
         "streak.svg": render_streak(d),
-        "trophies.svg": render_trophies(d),
         "activity.svg": render_activity(d),
         "typing.svg": render_typing(),
     }

@@ -54,25 +54,12 @@
 
 ---
 
-<!-- ===== Stats ===== -->
-<h2 align="center">📊 GitHub Stats</h2>
+<!-- ===== Languages & Streak ===== -->
+<h2 align="center">📈 Languages & Streak</h2>
 
 <p align="center">
-  <img src="assets/stats.svg" alt="GitHub Stats" height="180"/>
   <img src="assets/top-langs.svg" alt="Top Languages" height="180"/>
-</p>
-
-<p align="center">
   <img src="assets/streak.svg" alt="Streak Stats" height="180"/>
-</p>
-
----
-
-<!-- ===== Trophies ===== -->
-<h2 align="center">🏆 Trophies</h2>
-
-<p align="center">
-  <img src="assets/trophies.svg" alt="Trophies"/>
 </p>
 
 ---
