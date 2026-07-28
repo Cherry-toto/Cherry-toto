@@ -34,6 +34,13 @@
 
 </div>
 
+<p align="center">
+  🔭 <b>Currently hacking on:</b> a TikTok-style short-video mobile app — PHP backend, infinite scroll & video curation.
+</p>
+<p align="center">
+  ⚡ <b>Fun fact:</b> I can take a project from database schema all the way to deployment — solo.
+</p>
+
 ---
 
 <!-- ===== Tech stack icons ===== -->
@@ -109,6 +116,9 @@
   <img src="assets/wave.svg" alt="Wave" width="100%"/>
 </p>
 
+<p align="center">
+  <img src="assets/heart.svg" alt="heart" width="34"/>
+</p>
 <p align="center">
   <sub>⚡ Profile crafted with 💙 · animated with SVG, live stats & GitHub Actions</sub>
 </p>
