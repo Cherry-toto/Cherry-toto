@@ -5,7 +5,7 @@
 
 <!-- ===== Animated typing text ===== -->
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=26&duration=3500&pause=1200&color=21D4FD&center=true&vCenter=true&width=720&lines=Hi+there!+I'm+Cherry-toto+%F0%9F%91%8B;I'm+a+PHP+Backend+Developer;I+build+cool+things+with+code;Always+learning,+always+shipping+%F0%9F%9A%80" alt="Typing SVG" />
+  <img src="assets/typing.svg" width="100%" alt="Typing SVG" />
 </p>
 
 <!-- ===== Visitor counter (animated number) ===== -->
@@ -58,12 +58,12 @@
 <h2 align="center">📊 GitHub Stats</h2>
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Cherry-toto&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=21d4fd&icon_color=b721ff&text_color=c9d1d9&include_all_commits=true&count_private=true" alt="GitHub Stats" height="180"/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Cherry-toto&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=21d4fd&text_color=c9d1d9" alt="Top Languages" height="180"/>
+  <img src="assets/stats.svg" alt="GitHub Stats" height="180"/>
+  <img src="assets/top-langs.svg" alt="Top Languages" height="180"/>
 </p>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.demolab.com/?user=Cherry-toto&theme=tokyonight&hide_border=true&background=0d1117&stroke=21d4fd&ring=b721ff&fire=ff6ec4&currStreakNum=c9d1d9&sideNums=c9d1d9&currStreakLabel=c9d1d9&sideLabels=8b949e&dates=8b949e" alt="Streak Stats" height="180"/>
+  <img src="assets/streak.svg" alt="Streak Stats" height="180"/>
 </p>
 
 ---
@@ -72,7 +72,7 @@
 <h2 align="center">🏆 Trophies</h2>
 
 <p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=Cherry-toto&theme=tokyonight&no-frame=true&no-bg=true&margin-w=6&row=2" alt="Trophies"/>
+  <img src="assets/trophies.svg" alt="Trophies"/>
 </p>
 
 ---
@@ -81,7 +81,7 @@
 <h2 align="center">🌈 Contribution Activity</h2>
 
 <p align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=Cherry-toto&theme=github-gradient&hide_border=true&bg_color=0d1117&color=21d4fd&line=b721ff&point=ff6ec4&area=true&area_color=161b22" alt="Activity Graph" width="100%"/>
+  <img src="assets/activity.svg" alt="Activity Graph" width="100%"/>
 </p>
 
 ---

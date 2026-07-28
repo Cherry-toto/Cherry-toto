@@ -1,0 +1,38 @@
+name: Refresh Profile Cards
+
+on:
+  schedule:
+    - cron: "17 3 * * *"   # daily, 03:17 UTC
+  workflow_dispatch:      # manual "Run workflow" button
+  # NOTE: no `push` trigger on purpose, so committing the SVGs
+  # does not re-trigger this workflow (avoids loops).
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # need full history so the commit/push below has a base
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Generate profile SVG cards
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/gen_profile.py
+      - name: Commit & push (if changed)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/stats.svg assets/top-langs.svg assets/streak.svg assets/trophies.svg assets/activity.svg assets/typing.svg
+          if git diff --cached --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore: refresh profile cards [skip ci]"
+            git push
+          fi
